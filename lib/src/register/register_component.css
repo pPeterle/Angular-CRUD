@@ -1,7 +1,9 @@
 .container {
-  background: url(https://images.wallpaperscraft.com/image/background_bumps_light_86951_1920x1080.jpg) no-repeat center center fixed;
+  background: url(https://images.wallpaperscraft.com/image/light_faded_background_85547_1280x720.jpg);
   background-size: cover;
-  height: 100vh;;
+  min-height: 100vh;
+  background-color: blue;
+  width: 100%;
 }
 
 .loginBox {

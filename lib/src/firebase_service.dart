@@ -31,8 +31,10 @@ class FirebaseService {
 
   init() {
     _auth.onIdTokenChanged.listen((e) {
-      getUserData(e.uid);
-      _userAutenticated.sink.add(true);
+      if (e != null) {
+        getUserData(e.uid);
+        _userAutenticated.sink.add(true);
+      }
     });
   }
 
@@ -61,7 +63,6 @@ class FirebaseService {
     try {
       removeItemImage(item.imageUrl);
       await _collectionNoteRef.doc(item.key).delete();
-
     } catch (e) {
       print("Error in deleting ${item.key}: $e");
     }
@@ -131,12 +132,12 @@ class FirebaseService {
 
   Future<List<Note>> getNoteList() async {
     final querySnapshot = await _collectionNoteRef.get();
-    List<Note> list = querySnapshot.docs.map((doc) => Note.fromMap(doc.data())).toList();
+    List<Note> list =
+        querySnapshot.docs.map((doc) => Note.fromMap(doc.data())).toList();
     return list;
   }
 
-  dispose(){
+  dispose() {
     _userAutenticated.close();
-    
   }
 }
