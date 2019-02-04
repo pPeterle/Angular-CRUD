@@ -55,5 +55,27 @@
                     </div>
                 </section>
             </div>
+
+            <modal [visible]="showDialog">
+                    <material-dialog class="basic-dialog">
+                  
+                      <h1 header>Dialog title</h1>
+                  
+                      <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fermentum lacus est, eu
+                        sagittis ligula fermentum vel. Maecenas facilisis leo dolor, quis rhoncus sem imperdiet vel.
+                        Vestibulum vitae tristique orci. Ut lobortis varius convallis. Ut nec egestas diam. Nunc in
+                        tincidunt erat. Vivamus porttitor molestie ligula, vitae dictum elit ornare quis. Donec
+                        imperdiet venenatis justo ac viverra.
+                      </p>
+                  
+                      <div footer>
+                        <material-button autoFocus clear-size (trigger)="showDialog = false">
+                          Close
+                        </material-button>
+                      </div>
+                  
+                    </material-dialog>
+                  </modal>
     </main>
 </div>
