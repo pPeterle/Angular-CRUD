@@ -11,20 +11,16 @@ import 'package:angular_components/angular_components.dart';
 @Component(
   selector: 'my-tasks',
   templateUrl: 'tasks_component.html',
-  providers: [overlayBindings],
   styleUrls: [
     'package:angular_components/css/mdc_web/card/mdc-card.scss.css',
     'tasks_component.css',
-    'card_style.css',
-    'alert_style.css'
+    'card_style.css'
   ],
   directives: [
     formDirectives,
     coreDirectives,
     MaterialButtonComponent,
     MaterialIconComponent,
-    MaterialDialogComponent,
-    ModalComponent
   ],
 )
 class TasksComponent implements OnInit {
@@ -34,7 +30,6 @@ class TasksComponent implements OnInit {
   Note note = Note();
   File imageFile;
   List<Note> notes;
-  bool showDialog = false;
 
   TasksComponent(this.service, this.location, this.router);
 
@@ -44,7 +39,7 @@ class TasksComponent implements OnInit {
       router.navigate(RoutePaths.login.toUrl());
     }
 
-
+    print("on Init");
     service.noteList.listen((data) {
       notes = data;
     });
@@ -66,9 +61,8 @@ class TasksComponent implements OnInit {
   }
 
   onSubmit() {
-    // service.postItem(note, image: imageFile);
-    // note = Note();
-    showDialog = true;
+    service.postItem(note, image: imageFile);
+    note = Note();
   }
 
   editNote(Note note) {

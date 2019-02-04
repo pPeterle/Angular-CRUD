@@ -9,7 +9,6 @@ import '../src/model/note.dart';
 class FirebaseService {
   final fb.Auth _auth;
   final fb.StorageReference _storageRef;
-  final fs.CollectionReference _collectionNoteRef;
   final fs.CollectionReference _collectionUserRef;
 
   final List<Note> notes = [];
@@ -20,12 +19,11 @@ class FirebaseService {
   Stream<bool> get userAutenticated => _userAutenticated.stream;
 
   Stream<List<Note>> get noteList =>
-      _collectionNoteRef.onSnapshot.map((snapshot) =>
+      _collectionUserRef.doc(_auth.currentUser.uid).collection("notes").onSnapshot.map((snapshot) =>
           snapshot.docs.map((doc) => Note.fromMap(doc.data())).toList());
 
   FirebaseService()
       : _auth = fb.auth(),
-        _collectionNoteRef = fb.firestore().collection("notes"),
         _collectionUserRef = fb.firestore().collection("user"),
         _storageRef = fb.storage().ref("notes");
 
@@ -51,9 +49,9 @@ class FirebaseService {
         String url = await postItemImage(image);
         item.imageUrl = url;
       }
-      final ref = _collectionNoteRef.doc();
+      final ref = _collectionUserRef.doc(_auth.currentUser.uid).collection("notes").doc();
       item.key = ref.id;
-      await _collectionNoteRef.doc(item.key).set(item.toMap());
+      await _collectionUserRef.doc(_auth.currentUser.uid).collection("notes").doc(item.key).set(item.toMap());
     } catch (e) {
       print("Error in writing to database: $e");
     }
@@ -62,7 +60,7 @@ class FirebaseService {
   removeItem(Note item) async {
     try {
       removeItemImage(item.imageUrl);
-      await _collectionNoteRef.doc(item.key).delete();
+      await _collectionUserRef.doc(_auth.currentUser.uid).collection("notes").doc(item.key).delete();
     } catch (e) {
       print("Error in deleting ${item.key}: $e");
     }
@@ -72,7 +70,7 @@ class FirebaseService {
     try {
       await _auth.createUserWithEmailAndPassword(user.email, password);
       user.id = _auth.currentUser.uid;
-      await _collectionUserRef.doc(user.id).set(user.toMap());
+      await _collectionUserRef.doc(_auth.currentUser.uid).set(user.toMap());
       _userAutenticated.sink.add(true);
     } catch (e) {
       print("Erro in create user $e");
@@ -108,7 +106,8 @@ class FirebaseService {
 
   postItemImage(File file) async {
     try {
-      var task = _storageRef.child(file.name).put(file);
+      final id = DateTime.now().millisecondsSinceEpoch;
+      var task = _storageRef.child(id.toString()).put(file);
       task.onStateChanged
           .listen((_) => loading = true, onDone: () => loading = false);
 
@@ -131,9 +130,10 @@ class FirebaseService {
   }
 
   Future<List<Note>> getNoteList() async {
-    final querySnapshot = await _collectionNoteRef.get();
+    final querySnapshot = await _collectionUserRef.doc(_auth.currentUser.uid).collection("notes").get();
     List<Note> list =
         querySnapshot.docs.map((doc) => Note.fromMap(doc.data())).toList();
+    print("lista retornada: ${list.length}");
     return list;
   }
 
