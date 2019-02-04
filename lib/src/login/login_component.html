@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="loginBox">
+    <img src="https://microhealth.com/assets/images/illustrations/personal-user-illustration-@2x.png" class="user" />
+    <h2>Log in Here</h2>
+    <form (ngSubmit)="onSubmit()">
+      <p>Email</p>
+      <input type="text" placeholder="Enter Email" required
+      [(ngModel)]="email">
+      <p>Password</p>
+
+      <input type="password" placeholder="*******" required
+      [(ngModel)]="password">
+      
+      <input type="submit" value="Sign In">
+
+      <!-- <a href="#">Forget Password</a> -->
+      <a id="create_account" [routerLink]="registerUrl()">Create Account</a>
+    </form>
+
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<div class="root">
+    <header>
+        <div *ngIf="service.user != null">
+            <h1>Olá, {{service.user.name}}</h1>
+        </div>
+        <div>
+            <material-button class="sign-out" (click)="signOut()">
+                Sign Out
+            </material-button>
+        </div>
+    </header>
+
+    <main>
+            <div>
+                <div>
+                    <input type="text" [(ngModel)]="note.title" placeholder="Digite o título" required>
+                    <input type="text" [(ngModel)]="note.text" placeholder="Digite a Descrição" required>
+                    <input type="file" accept="image/*" (change)="imageChanged($event)" value="Escolha uma imagem" required>
+
+                    <material-button icon (click)="onSubmit()">
+                        Enviar <material-icon icon="send"></material-icon>
+                    </material-button>
+                </div>
+
+                <img id="blah" [src]="note.imageUrl" style="height: 100px;" *ngIf="note.imageUrl != null">
+            </div>
+
+            <div class="notes">
+                <section *ngFor="let note of notes">
+                    <div class="mdc-card mdc-card--outlined demo-size">
+                        <div class="mdc-card__media mdc-card__media--16-9" demo-card__media [ngStyle]="{'background-image': 'url(' + note.imageUrl + ')'}"></div>
+                        <div class="demo-card__primary">
+                            <h2 class="demo-card__title">{{note.title}}</h2>
+                        </div>
+                        <div class="demo-card__secondary">
+                            {{note.text}} e o id {{note.key}}
+                        </div>
+                        <div class="mdc-card__actions">
+                            <!-- <div class="mdc-card__action-buttons">
+                            <material-button>Read</material-button>
+                            <material-button>Bookmark</material-button>
+                        </div> -->
+                            <div class="mdc-card__action-icons">
+                                <!-- <material-button icon>
+                                <material-icon icon="favorite_border"></material-icon>
+                            </material-button> -->
+                            <material-button (click)="editNote(note)" icon> 
+                                <material-icon icon="create"></material-icon>
+                            </material-button> 
+                                <material-button (click)="deleteNote(note)" icon>
+                                    <material-icon icon="delete"></material-icon>
+                                </material-button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+    </main>
+</div>
