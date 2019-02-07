@@ -101,7 +101,7 @@ class FirebaseService {
   Stream<List<Tag>> getSeletectedTags(Note note) => _collectionUserRef
       .doc(user.id)
       .collection(colletionNotes)
-      .doc(note.key)
+      .doc(note.id)
       .collection("tags")
       .onSnapshot
       .map((snapshot) =>
@@ -130,11 +130,11 @@ class FirebaseService {
       }
       final ref =
           _collectionUserRef.doc(user.id).collection(colletionNotes).doc();
-      note.key = ref.id;
+      note.id = ref.id;
       await _collectionUserRef
           .doc(user.id)
           .collection(colletionNotes)
-          .doc(note.key)
+          .doc(note.id)
           .set(note.toMap());
     } catch (e) {
       print("Error in writing to database: $e");
@@ -146,7 +146,7 @@ class FirebaseService {
       final snapshot = await _collectionUserRef
           .doc(user.id)
           .collection(colletionNotes)
-          .doc(note.key)
+          .doc(note.id)
           .get();
 
       final depreceatedNote = Note.fromMap(snapshot.data());
@@ -157,7 +157,7 @@ class FirebaseService {
     await _collectionUserRef
         .doc(user.id)
         .collection(colletionNotes)
-        .doc(note.key)
+        .doc(note.id)
         .update(data: note.toMap());
   }
 
@@ -167,10 +167,10 @@ class FirebaseService {
       await _collectionUserRef
           .doc(user.id)
           .collection(colletionNotes)
-          .doc(item.key)
+          .doc(item.id)
           .delete();
     } catch (e) {
-      print("Error in deleting ${item.key}: $e");
+      print("Error in deleting ${item.id}: $e");
     }
   }
 
@@ -241,7 +241,7 @@ class FirebaseService {
       await _collectionUserRef
           .doc(user.id)
           .collection(colletionNotes)
-          .doc(note.key)
+          .doc(note.id)
           .collection("tags")
           .add(tag.toMap());
     } catch (e) {
@@ -254,7 +254,7 @@ class FirebaseService {
       await _collectionUserRef
           .doc(user.id)
           .collection(colletionNotes)
-          .doc(note.key)
+          .doc(note.id)
           .collection("tags")
           .where("id", "==", tag.id)
           .get()

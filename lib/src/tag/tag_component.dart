@@ -16,19 +16,13 @@ import 'package:angular_forms/angular_forms.dart';
     MaterialIconComponent
   ]
 )
-class TagComponent implements OnInit{
+class TagComponent {
   final FirebaseService service;
   Tag tag = Tag();
 
   @Input() List<Tag> tags;
 
-
   TagComponent(this.service);
-
-  @override
-  void ngOnInit() {
-    
-  }
 
   createTag() {
     if (tag.color == null) tag.color = "#000";

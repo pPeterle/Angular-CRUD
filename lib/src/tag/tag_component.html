@@ -7,7 +7,7 @@
             Salvar Tag
         </material-button>
     </div>
-    
+
 
 </div>
 
@@ -17,8 +17,7 @@
         <li *ngFor="let tag of tags">
             <div class="tag">
                 Nome: <strong>{{tag.name}}</strong>
-                <div class="tag_color"
-                [style.background-color]="tag.color"></div>
+                <div class="tag_color" [style.background-color]="tag.color"></div>
                 <material-button (click)="deleteTag(tag)" icon>
                     <material-icon icon="delete"></material-icon>
                 </material-button>

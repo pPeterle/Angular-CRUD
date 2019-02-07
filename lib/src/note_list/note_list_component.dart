@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:html';
 
 import 'package:angular/angular.dart';
@@ -29,9 +30,10 @@ import 'package:angular_components/angular_components.dart';
     TagComponent
   ],
 )
-class NoteListComponent implements OnInit {
+class NoteListComponent implements OnInit, OnDestroy {
   final FirebaseService service;
   final Router router;
+  final List<StreamSubscription> _streamSubscriptionList = List();
 
   List<Tag> tags;
   Note note = Note();
@@ -48,16 +50,18 @@ class NoteListComponent implements OnInit {
       router.navigate(RoutePaths.login.toUrl());
     }
 
-    service.noteList.listen((data) {
+    final subscription = service.noteList.listen((data) {
       notes = data;
     });
 
-    service.tagList.listen((tagList) {
+    final subscription1 = service.tagList.listen((tagList) {
       if (tagList.length > 0)
         this.tags = tagList;
       else
         this.tags = null;
     });
+
+    _streamSubscriptionList..add(subscription)..add(subscription1);
   }
 
   imageChanged(dynamic e) {
@@ -91,5 +95,12 @@ class NoteListComponent implements OnInit {
   cancelEdit() {
     isEditing = false;
     note = Note();
+  }
+
+  @override
+  void ngOnDestroy() {
+    _streamSubscriptionList.forEach((item) {
+      item.cancel();
+    });
   }
 }
