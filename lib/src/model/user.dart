@@ -1,6 +1,6 @@
-const String jsonTagId = "id";
-const String jsonTagName = "name";
-const String jsonTagEmail = "email";
+const String _jsonTagId = "id";
+const String _jsonTagName = "name";
+const String _jsonTagEmail = "email";
 
 class User {
   String id;
@@ -10,11 +10,11 @@ class User {
   User({this.id, this.name, this.email});
 
   factory User.fromMap(Map<String, dynamic> map) => User(
-        id: map[jsonTagId],
-        email: map[jsonTagEmail],
-        name: map[jsonTagName],
+        id: map[_jsonTagId],
+        email: map[_jsonTagEmail],
+        name: map[_jsonTagName],
       );
 
   Map<String, dynamic> toMap() =>
-      {jsonTagId: id, jsonTagEmail: email, jsonTagName: name};
+      {_jsonTagId: id, _jsonTagEmail: email, _jsonTagName: name};
 }

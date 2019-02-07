@@ -15,20 +15,19 @@ import 'route_paths.dart';
     directives: [routerDirectives],
     providers: [FirebaseService],
     exports: [RoutePaths, Routes])
-class AppComponent implements OnInit , OnDestroy{
-
+class AppComponent implements OnInit, OnDestroy {
   final FirebaseService service;
   final Router router;
-  Stream<bool> userAutenticated;
+  StreamSubscription _streamSubscription;
 
   AppComponent(this.service, this.router);
 
   @override
   ngOnInit() {
     service.init();
-    userAutenticated = service.userAutenticated;
-    userAutenticated.listen((isLogin) {
-      if(isLogin)
+    
+   _streamSubscription = service.userAutenticated.listen((isLogin) {
+      if (isLogin)
         router.navigate(RoutePaths.tasks.toUrl());
       else
         router.navigate(RoutePaths.login.toUrl());
@@ -38,5 +37,6 @@ class AppComponent implements OnInit , OnDestroy{
   @override
   void ngOnDestroy() {
     service.dispose();
+    _streamSubscription.cancel();
   }
 }

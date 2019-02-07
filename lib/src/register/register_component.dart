@@ -13,10 +13,11 @@ import 'package:angular_router/angular_router.dart';
 )
 class RegisterComponent {
 
-  User user = User();
-  String password;
   final Location location;
   final FirebaseService service;
+  
+  User user = User();
+  String password;
 
   RegisterComponent(this.location, this.service);
 

@@ -1,0 +1,45 @@
+<div class="mdc-card mdc-card--outlined demo-size">
+    <div class="mdc-card__media mdc-card__media--16-9" demo-card__media
+        [ngStyle]="{'background-image': 'url(' + note.imageUrl + ')'}"></div>
+    <div class="demo-card__primary">
+        <h2 class="demo-card__title">{{note.title}}</h2>
+    </div>
+    <div class="demo-card__secondary">
+        {{note.text}}
+    </div>
+    <div class="mdc-card__actions">
+
+        <div class="mdc-card__action-buttons">
+            <material-button popupSource #source="popupSource" (trigger)="popupVisible = !popupVisible">Tags
+            </material-button>
+            <material-popup [source]="source" [(visible)]="popupVisible">
+                <div class="popup">
+                    <h3>Selecione suas Tags</h3>
+                    <div *ngFor="let tag of tags; let i = index">
+                        <div class="tag_color" [style.background-color]="tag.color" themeColor="tag.color"></div>
+                        <material-checkbox [label]="tag.name" (checkedChange)="checkedChange(i)"
+                            [checked]="selectedTags.contains(tag)">
+                        </material-checkbox>
+
+
+                    </div>
+                    <material-button (click)="save()">
+                        Salvar
+                    </material-button>
+
+                </div>
+            </material-popup>
+            <span class="dot" *ngFor="let tag of selectedTags" [style.background-color]="tag.color"></span>
+        </div>
+
+        <div class="mdc-card__action-icons">
+
+            <material-button (click)="editNote()" icon>
+                <material-icon icon="create"></material-icon>
+            </material-button>
+            <material-button (click)="deleteNote()" icon>
+                <material-icon icon="delete"></material-icon>
+            </material-button>
+        </div>
+    </div>
+</div>

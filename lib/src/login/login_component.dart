@@ -10,27 +10,19 @@ import 'package:angular_components/angular_components.dart';
     templateUrl: 'login_component.html',
     styleUrls: ['login_component.css'],
     directives: [coreDirectives, routerDirectives, formDirectives, MaterialButtonComponent])
-class LoginComponent implements OnInit{
+class LoginComponent{
 
   String email;
   String password;
-  final Router router;
   final FirebaseService service;
   
-  LoginComponent(this.service,this.router);
+  LoginComponent(this.service);
 
   String registerUrl() => RoutePaths.register.toUrl();
 
   void onSubmit() {
     service.singInWithEmailAndPassword(email, password);
   }
-
-  @override
-  void ngOnInit() {
-    service.userAutenticated.listen((isLoggin) {
-      if(isLoggin)
-      router.navigate(RoutePaths.tasks.toUrl());
-    });
-  }
+  
 
 }

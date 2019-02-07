@@ -43,6 +43,19 @@ main input[type="text"] {
     margin: 10px;
 }
 
+.image_preview {
+    margin: 15px;
+    height: 150px;
+}
+
+.materialBtn {
+    padding: 5px;
+    margin: 15px;
+    color: #fff;
+    background: rgb(139, 139, 139);
+    border-radius: 30px;
+}
+
 @media(max-width: 800px) {
     main {
         flex-direction: column;

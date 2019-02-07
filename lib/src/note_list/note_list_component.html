@@ -1,0 +1,44 @@
+<div class="root">
+    <header>
+        <div *ngIf="service.user != null">
+            <h1>Olá, {{service.user.name}}</h1>
+        </div>
+        <div class="menu">
+            <material-button class="sign-out" (click)="signOut()">
+                Sign Out
+            </material-button>
+        </div>
+    </header>
+
+    <main>
+        <div>
+            <div>
+                <h2>Crie sua Nota</h2>
+                <input type="text" [(ngModel)]="note.title" placeholder="Digite o título" required>
+                <input type="text" [(ngModel)]="note.text" placeholder="Digite a Descrição" required>
+                <input type="file" accept="image/*" (change)="imageChanged($event)" value="Escolha uma imagem" required>
+
+                <div>
+                    <material-button raised class="materialBtn" (click)="onSubmit()">
+                        {{ isEditing ? "Atualizar" : "Enviar" }} 
+                    </material-button>
+
+                    <material-button *ngIf="isEditing" (click)="cancelEdit()">
+                        Cancelar 
+                    </material-button>
+                </div>
+
+
+                <img class="image_preview" [src]="note.imageUrl" *ngIf="note.imageUrl != null">
+            </div>
+
+            <my-tag [tags]='tags'></my-tag>
+
+
+        </div>
+
+        <div class="notes" *ngFor="let note of notes">
+            <my-note [note]="note" [tags]="tags" (edit)="editNote(note)"></my-note>
+        </div>
+    </main>
+</div>

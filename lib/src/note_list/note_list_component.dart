@@ -4,34 +4,43 @@ import 'package:angular/angular.dart';
 import 'package:angular_app/route_paths.dart';
 import 'package:angular_app/src/firebase_service.dart';
 import 'package:angular_app/src/model/note.dart';
+import 'package:angular_app/src/model/tag.dart';
+import 'package:angular_app/src/note/note_component.dart';
+import 'package:angular_app/src/tag/tag_component.dart';
 import 'package:angular_forms/angular_forms.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:angular_components/angular_components.dart';
 
 @Component(
   selector: 'my-tasks',
-  templateUrl: 'tasks_component.html',
+  templateUrl: 'note_list_component.html',
   styleUrls: [
-    'package:angular_components/css/mdc_web/card/mdc-card.scss.css',
-    'tasks_component.css',
-    'card_style.css'
+    'note_list_component.css',
   ],
+  providers: [popupBindings],
   directives: [
+    NoteComponent,
     formDirectives,
     coreDirectives,
     MaterialButtonComponent,
     MaterialIconComponent,
+    PopupSourceDirective,
+    MaterialPopupComponent,
+    TagComponent
   ],
 )
-class TasksComponent implements OnInit {
+class NoteListComponent implements OnInit {
   final FirebaseService service;
-  final Location location;
   final Router router;
+
+  List<Tag> tags;
   Note note = Note();
+  bool isEditing = false;
+
   File imageFile;
   List<Note> notes;
 
-  TasksComponent(this.service, this.location, this.router);
+  NoteListComponent(this.service, this.router);
 
   @override
   void ngOnInit() async {
@@ -39,12 +48,16 @@ class TasksComponent implements OnInit {
       router.navigate(RoutePaths.login.toUrl());
     }
 
-    print("on Init");
     service.noteList.listen((data) {
       notes = data;
     });
 
-    notes = await service.getNoteList();
+    service.tagList.listen((tagList) {
+      if (tagList.length > 0)
+        this.tags = tagList;
+      else
+        this.tags = null;
+    });
   }
 
   imageChanged(dynamic e) {
@@ -61,16 +74,22 @@ class TasksComponent implements OnInit {
   }
 
   onSubmit() {
-    service.postItem(note, image: imageFile);
+    if (isEditing) {
+      service.updateNote(note, image: imageFile);
+      isEditing = false;
+    } else {
+      service.postNote(note, image: imageFile);
+    }
     note = Note();
   }
 
   editNote(Note note) {
+    isEditing = true;
     this.note = note;
-    deleteNote(note);
   }
 
-  deleteNote(Note deletedNote) {
-    service.removeItem(deletedNote);
+  cancelEdit() {
+    isEditing = false;
+    note = Note();
   }
 }
