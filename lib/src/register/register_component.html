@@ -2,19 +2,19 @@
   <div class="loginBox">
     <img src="https://microhealth.com/assets/images/illustrations/personal-user-illustration-@2x.png" class="user" />
     <h2>Register in Here</h2>
-    <form (ngSubmit)="onSubmit()">
 
-      <p>Name</p>
-      <input type="text" placeholder="Enter Name" required [(ngModel)]="user.name">
+    <material-input type="text" label="Name" [floatingLabel]="true" required [(ngModel)]="user.name">
+    </material-input>
 
-      <p>Email</p>
-      <input type="text" placeholder="Enter Email" required [(ngModel)]="user.email" >
+    <material-input type="text" label="Email" [floatingLabel]="true" required [(ngModel)]="user.email">
+    </material-input>
 
-      <p>Password</p>
-      <input type="password" placeholder="*******" required [(ngModel)]="password" >
+    <material-input type="password" label="Password" [floatingLabel]="true" required [(ngModel)]="password">
+    </material-input>
 
-      <input type="submit" value="Register">
-    </form>
+    <material-button id="submit" raised (click)="onSubmit()">
+      Register
+    </material-button>
 
   </div>
 </div>

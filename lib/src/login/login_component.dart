@@ -6,16 +6,24 @@ import '../../route_paths.dart';
 import 'package:angular_components/angular_components.dart';
 
 @Component(
-    selector: 'my-login',
-    templateUrl: 'login_component.html',
-    styleUrls: ['login_component.css'],
-    directives: [coreDirectives, routerDirectives, formDirectives, MaterialButtonComponent])
-class LoginComponent{
-
+  selector: 'my-login',
+  templateUrl: 'login_component.html',
+  styleUrls: ['login_component.css'],
+  directives: [
+    coreDirectives,
+    routerDirectives,
+    formDirectives,
+    MaterialButtonComponent,
+    MaterialButtonComponent,
+    MaterialInputComponent,
+    materialInputDirectives, 
+  ],
+)
+class LoginComponent {
   String email;
   String password;
   final FirebaseService service;
-  
+
   LoginComponent(this.service);
 
   String registerUrl() => RoutePaths.register.toUrl();
@@ -23,6 +31,4 @@ class LoginComponent{
   void onSubmit() {
     service.singInWithEmailAndPassword(email, password);
   }
-  
-
 }

@@ -1,21 +1,24 @@
 <div class="container">
+
   <div class="loginBox">
     <img src="https://microhealth.com/assets/images/illustrations/personal-user-illustration-@2x.png" class="user" />
     <h2>Log in Here</h2>
-    <form (ngSubmit)="onSubmit()">
-      <p>Email</p>
-      <input type="text" placeholder="Enter Email" required
-      [(ngModel)]="email">
-      <p>Password</p>
 
-      <input type="password" placeholder="*******" required
-      [(ngModel)]="password">
-      
-      <input type="submit" value="Sign In">
+    <material-input type="text" label="Email" [floatingLabel]="true" required [(ngModel)]="email">
+    </material-input>
 
-      <!-- <a href="#">Forget Password</a> -->
-      <a id="create_account" [routerLink]="registerUrl()">Create Account</a>
-    </form>
+    <material-input type="password" label="Password" [floatingLabel]="true" required [(ngModel)]="password">
+    </material-input>
+
+    <material-button id="submit" raised (click)="onSubmit()">
+      Login
+    </material-button>
+
+    <!-- <a href="#">Forget Password</a> -->
+    <material-button id="create_account" [routerLink]="registerUrl()">
+      Create Account
+    </material-button>
+
 
   </div>
 </div>
