@@ -5,7 +5,6 @@ import 'package:angular_app/src/model/user.dart';
 import 'package:angular_forms/angular_forms.dart';
 import 'package:angular_router/angular_router.dart';
 
-
 @Component(
     selector: 'my-register',
     templateUrl: 'register_component.html',
@@ -17,6 +16,7 @@ import 'package:angular_router/angular_router.dart';
       formDirectives,
       MaterialButtonComponent,
       MaterialButtonComponent,
+      MaterialIconComponent,
       MaterialInputComponent,
       materialInputDirectives,
     ])
@@ -25,11 +25,49 @@ class RegisterComponent {
   final FirebaseService service;
 
   User user = User();
-  String password;
+  String _password;
+
+  String passwordError;
+  String emailError;
+  String firebaseError;
+
+  String get password => _password;
+  void set password(String text) {
+    _password = text;
+    checkPassword();
+  }
+
+  String get email => user.email;
+  void set email(String text) {
+    user.email = text;
+    checkEmail();
+  }
 
   RegisterComponent(this.location, this.service);
 
-  onSubmit() {
-    service.createUserWithEmail(user, password);
+  onSubmit() async {
+    firebaseError = await service.createUserWithEmail(user, password);
+  }
+
+  goBack() {
+    location.back();
+  }
+
+  void checkEmail() {
+    String p =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regExp = RegExp(p);
+    final result = regExp.hasMatch(user.email);
+    if (!result)
+      emailError = "Invalid Email";
+    else
+      emailError = null;
+  }
+
+  void checkPassword() {
+    if (_password.length < 6)
+      passwordError = "Password is too small";
+    else
+      passwordError = null;
   }
 }

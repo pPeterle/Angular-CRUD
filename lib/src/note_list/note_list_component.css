@@ -1,4 +1,4 @@
-.root {
+:host {
     width: 100%;
 }
 
@@ -15,20 +15,36 @@ header {
     background: rgba(219, 219, 219, 0.158)
 }
 
-main {
-    display: flex;
-    margin: 20px auto;
-    padding: 30px;
-    background: rgb(235, 235, 235);
+material-input {
+    display: block;
 }
 
-main input[type="text"] {
-    
-      display: block;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    width: auto;
+main {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    padding: 30px;
+    background: #fff;
+}
+
+.flex_row {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px 40px 20px 40px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 30px -6px rgba(0,0,0,0.75);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .notes {
@@ -39,21 +55,47 @@ main input[type="text"] {
     padding: 20px;
 }
 
-.notes section {
-    margin: 10px;
-}
-
 .image_preview {
     margin: 15px;
     height: 150px;
 }
 
-.materialBtn {
+.sendBtn {
+    width: 200px;
     padding: 5px;
     margin: 15px;
     color: #fff;
-    background: rgb(139, 139, 139);
+    background: rgb(61, 64, 228);
     border-radius: 30px;
+}
+
+.input_file {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.input_file + label {
+    font-weight: 600;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(56, 185, 218);
+    display: inline-block;
+    transition: 0.3s
+}
+
+.input_file:focus + label,
+.input_file + label:hover {
+    background-color: rgba(56, 185, 218, 0.5)
+}
+
+.input_file + label {
+	cursor: pointer; /* "hand" cursor */
 }
 
 @media(max-width: 800px) {

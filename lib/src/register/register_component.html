@@ -1,20 +1,28 @@
 <div class="container">
   <div class="loginBox">
+
+    <material-button icon id="arrow" (click)="goBack()">
+      <material-icon icon="keyboard_arrow_left"></material-icon>
+    </material-button>
+
+
     <img src="https://microhealth.com/assets/images/illustrations/personal-user-illustration-@2x.png" class="user" />
     <h2>Register in Here</h2>
 
     <material-input type="text" label="Name" [floatingLabel]="true" required [(ngModel)]="user.name">
     </material-input>
 
-    <material-input type="text" label="Email" [floatingLabel]="true" required [(ngModel)]="user.email">
+    <material-input type="text" label="Email" [floatingLabel]="true" [error]="emailError" required [(ngModel)]="email">
     </material-input>
 
-    <material-input type="password" label="Password" [floatingLabel]="true" required [(ngModel)]="password">
+    <material-input type="password" label="Password" [floatingLabel]="true" [error]="passwordError" required [(ngModel)]="password">
     </material-input>
 
-    <material-button id="submit" raised (click)="onSubmit()">
+    <material-button id="submit" raised [disabled]="email == null || password == null || emailError != null || passwordError != null" (trigger)="onSubmit()">
       Register
     </material-button>
+
+    <p *ngIf="firebaseError != null">{{firebaseError}}</p>
 
   </div>
 </div>

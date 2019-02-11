@@ -11,6 +11,7 @@ $mdc-card-image: 'http://material-components-web.appspot.com/images/16-9.jpg';
 
 :host {
   display: flex;
+  margin: 10px;
 }
 
 // Provide a size for the card. Cards normally take up the complete space of

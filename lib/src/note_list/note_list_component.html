@@ -1,44 +1,45 @@
-<div class="root">
-    <header>
-        <div *ngIf="service.user != null">
-            <h1>Olá, {{service.user.name}}</h1>
-        </div>
-        <div class="menu">
+<header class="material-header">
+    <div class="material-header-row">
+        <span class="material-header-title">Hi {{service.user?.name}}</span>
+        <div class="material-spacer"></div>
+        <nav class="material-navigation">
             <material-button class="sign-out" (click)="signOut()">
                 Sign Out
             </material-button>
-        </div>
-    </header>
+        </nav>
+    </div>
+</header>
 
-    <main>
-        <div>
+<main>
+    <div class="flex_row">
+        <div class="container">
+            <h2>Create your Note</h2>
+            <material-input [(ngModel)]="note.title" label="Title" [floatingLabel]="true"></material-input>
+            <material-input [(ngModel)]="note.text" label="Description" [floatingLabel]="true">
+            </material-input>
+            <input id="file" class="input_file" type="file" accept="image/*" (change)="imageChanged($event)" />
+            <label for="file">Choose a image
+                <material-icon icon="attach_file"></material-icon>
+            </label>
+
             <div>
-                <h2>Crie sua Nota</h2>
-                <input type="text" [(ngModel)]="note.title" placeholder="Digite o título" required>
-                <input type="text" [(ngModel)]="note.text" placeholder="Digite a Descrição" required>
-                <input type="file" accept="image/*" (change)="imageChanged($event)" value="Escolha uma imagem" required>
+                <material-button raised class="sendBtn" (click)="onSubmit()">
+                    {{ isEditing ? "Update" : "Send" }}
+                </material-button>
 
-                <div>
-                    <material-button raised class="materialBtn" (click)="onSubmit()">
-                        {{ isEditing ? "Atualizar" : "Enviar" }}
-                    </material-button>
-
-                    <material-button *ngIf="isEditing" (click)="cancelEdit()">
-                        Cancelar
-                    </material-button>
-                </div>
-
-
-                <img class="image_preview" [src]="note.imageUrl" *ngIf="note.imageUrl != null">
+                <material-button *ngIf="isEditing" (click)="cancelEdit()">
+                    Cancel
+                </material-button>
             </div>
-
-            <my-tag [tags]='tags'></my-tag>
-
-
+            <img class="image_preview" [src]="note.imageUrl" *ngIf="note.imageUrl != null">
         </div>
+        
+        
+        <my-tag class="container" [tags]="tags"></my-tag>
+    </div>
 
-        <div class="notes" *ngFor="let note of notes">
-            <my-note [note]="note" [tags]="tags" (edit)="editNote(note)"></my-note>
-        </div>
-    </main>
-</div>
+
+    <div class="notes">
+        <my-note  *ngFor="let note of notes" [note]="note" [tags]="tags" (edit)="editNote(note)"></my-note>
+    </div>
+</main>

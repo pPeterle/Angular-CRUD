@@ -17,17 +17,21 @@ import 'package:angular_components/angular_components.dart';
   templateUrl: 'note_list_component.html',
   styleUrls: [
     'note_list_component.css',
+    'package:angular_components/app_layout/layout.scss.css'
   ],
   providers: [popupBindings],
   directives: [
-    NoteComponent,
     formDirectives,
     coreDirectives,
+    materialInputDirectives,
     MaterialButtonComponent,
     MaterialIconComponent,
+    MaterialInputComponent,
+    MaterialMultilineInputComponent,
     PopupSourceDirective,
     MaterialPopupComponent,
-    TagComponent
+    NoteComponent,
+    TagComponent,
   ],
 )
 class NoteListComponent implements OnInit, OnDestroy {
@@ -48,6 +52,7 @@ class NoteListComponent implements OnInit, OnDestroy {
   void ngOnInit() async {
     if (!service.isLoggin()) {
       router.navigate(RoutePaths.login.toUrl());
+      return;
     }
 
     final subscription = service.noteList.listen((data) {
@@ -64,7 +69,7 @@ class NoteListComponent implements OnInit, OnDestroy {
     _streamSubscriptionList..add(subscription)..add(subscription1);
   }
 
-  imageChanged(dynamic e) {
+  imageChanged(Event e) {
     final reader = FileReader();
     imageFile = (e.target as FileUploadInputElement).files[0];
 
@@ -78,6 +83,7 @@ class NoteListComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+     
     if (isEditing) {
       service.updateNote(note, image: imageFile);
       isEditing = false;

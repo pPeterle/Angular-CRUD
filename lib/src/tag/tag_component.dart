@@ -12,8 +12,10 @@ import 'package:angular_forms/angular_forms.dart';
   directives: [
     coreDirectives,
     formDirectives,
+    materialInputDirectives,
+    MaterialInputComponent,
     MaterialButtonComponent,
-    MaterialIconComponent
+    MaterialIconComponent,
   ]
 )
 class TagComponent {

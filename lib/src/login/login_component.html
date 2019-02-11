@@ -10,7 +10,7 @@
     <material-input type="password" label="Password" [floatingLabel]="true" required [(ngModel)]="password">
     </material-input>
 
-    <material-button id="submit" raised (click)="onSubmit()">
+    <material-button id="submit" raised (trigger)="onSubmit()"  [disabled]="email == null || password == null || password.isEmpty || email.isEmpty ">
       Login
     </material-button>
 
@@ -18,6 +18,8 @@
     <material-button id="create_account" [routerLink]="registerUrl()">
       Create Account
     </material-button>
+
+    <p *ngIf="firebaseError != null">{{firebaseError}}</p>
 
 
   </div>

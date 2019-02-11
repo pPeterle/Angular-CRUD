@@ -16,19 +16,23 @@ import 'package:angular_components/angular_components.dart';
     MaterialButtonComponent,
     MaterialButtonComponent,
     MaterialInputComponent,
-    materialInputDirectives, 
+    materialInputDirectives,
   ],
 )
 class LoginComponent {
+  
   String email;
   String password;
+  String firebaseError;
+
   final FirebaseService service;
 
   LoginComponent(this.service);
 
   String registerUrl() => RoutePaths.register.toUrl();
 
-  void onSubmit() {
-    service.singInWithEmailAndPassword(email, password);
+  void onSubmit() async {
+    if (email != null || password != null)
+      firebaseError = await service.singInWithEmailAndPassword(email, password);
   }
 }

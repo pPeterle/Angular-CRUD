@@ -19,7 +19,6 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 350px;
-  height: 420px;
   padding: 80px 40px;
   box-sizing: border-box;
   background: rgba(231, 231, 231, 0.5);
@@ -45,5 +44,11 @@ h2 {
 material-input  {
   width: 100%;
   color: #fff;
+}
+
+#arrow {
+  position: absolute;
+  top: 25px;
+  left: 20px;
 }
   

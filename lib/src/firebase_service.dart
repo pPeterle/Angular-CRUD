@@ -1,3 +1,4 @@
+import 'dart:io' as io;
 import 'dart:html';
 import 'package:angular_app/src/model/tag.dart';
 import 'package:angular_app/src/model/user.dart';
@@ -62,7 +63,7 @@ class FirebaseService {
       await _collectionUserRef.doc(_auth.currentUser.uid).set(user.toMap());
       _userAutenticated.sink.add(true);
     } catch (e) {
-      print("Erro in create user $e");
+      return "Error: $e";
     }
   }
 
@@ -70,7 +71,7 @@ class FirebaseService {
     try {
       await _auth.signInWithEmailAndPassword(email, password);
     } catch (e) {
-      print("erro no sigin $e");
+      return "Error : ${e.message}";
     }
   }
 
@@ -124,10 +125,14 @@ class FirebaseService {
 
   postNote(Note note, {File image}) async {
     try {
-      if (image != null) {
-        String url = await postNoteImage(image);
-        note.imageUrl = url;
-      }
+      String url;
+      if (image == null)
+        url =
+            "https://images.wallpaperscraft.com/image/circles_glare_light_faded_46870_300x168.jpg";
+      else
+        url = await postNoteImage(image);
+
+      note.imageUrl = url;
       final ref =
           _collectionUserRef.doc(user.id).collection(colletionNotes).doc();
       note.id = ref.id;
@@ -205,7 +210,9 @@ class FirebaseService {
   postNoteImage(File file) async {
     try {
       final id = DateTime.now().millisecondsSinceEpoch;
-      var task = _storageRef.child(id.toString()).put(file);
+
+      final task = _storageRef.child(id.toString()).put(file);
+
       task.onStateChanged
           .listen((_) => loading = true, onDone: () => loading = false);
 

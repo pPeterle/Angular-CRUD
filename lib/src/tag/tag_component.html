@@ -1,22 +1,23 @@
+<h2>Create your Tags</h2>
+<material-input [(ngModel)]="tag.name" label="Title" [floatingLabel]="true"></material-input>
+<label for="input_color">
+    Select color:
+    <input id="input_color" type="color" [(ngModel)]="tag.color" name="Cor">
+</label>
 <div>
-    <h2>Crie suas Tags</h2>
-    <input type="text" [(ngModel)]="tag.name" placeholder="Nome da Tag">
-    <input type="color" [(ngModel)]="tag.color" name="Cor">
-    <div>
-        <material-button raised class="materialBtn" (click)="createTag()">
-            Salvar Tag
-        </material-button>
-    </div>
-
-
+    <material-button raised class="sendBtn" (click)="createTag()">
+        Save Tag
+    </material-button>
 </div>
+
+
 
 <div *ngIf="tags != null">
     <h2>Tags:</h2>
     <ul>
         <li *ngFor="let tag of tags">
             <div class="tag">
-                Nome: <strong>{{tag.name}}</strong>
+                <strong>{{tag.name}}</strong>
                 <div class="tag_color" [style.background-color]="tag.color"></div>
                 <material-button (click)="deleteTag(tag)" icon>
                     <material-icon icon="delete"></material-icon>
